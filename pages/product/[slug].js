@@ -5,7 +5,7 @@ import data from '../../utils/data';
 import Layout from '../../components/Layout';
 import NextLink from 'next/link';
 import Image from 'next/image';
-import { Grid,Link, List, ListItem, Typography ,Card} from '@material-ui/core'
+import { Grid,Link, List, ListItem, Typography ,Card,Button,} from '@material-ui/core'
 import useStyles from '../../utils/styles1';
 
 
@@ -38,6 +38,9 @@ export default function ProductScreen() {
         </Grid>
         <Grid item md={3} xs={12}>
           <List>
+            <ListItem>
+              <Typography component="h1">{product.name}</Typography>
+            </ListItem>
             <ListItem>
             <Typography>category:{product.category}</Typography>
             </ListItem>
@@ -89,6 +92,11 @@ export default function ProductScreen() {
                 </Grid>
 
 
+              </ListItem>
+              <ListItem>
+                <Button fullWidth variant="contained" color="primary">
+                  Add to cart
+                  </Button>
               </ListItem>
             </List>
           </Card>

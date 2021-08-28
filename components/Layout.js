@@ -3,14 +3,14 @@ import Head from 'next/head'
 import React from 'react'
 import NextLink from 'next/link';
 
-import useStyles from '../utils/styles';
+import useStyles from '../utils/styles1';
 
-export default function Layout({ children }) {
+export default function Layout({title, children }) {
   const classes = useStyles();
   return (
     <div>
       <Head>
-        <title>e-cart</title>
+        <title>{title ? `${title}- e-cart` : `e-cart`}</title>
       </Head>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>

@@ -7,7 +7,7 @@ import useStyles from '../utils/styles1';
 import { Store } from '../utils/Store';
 import Cookies from 'js-cookie';
 
-export default function Layout({ title, children }) {
+export default function Layout({ title,  discription,children }) {
   const { state, dispatch } = useContext(Store);
   const { darkMode } = state;
   const theme = createMuiTheme({
@@ -45,6 +45,7 @@ export default function Layout({ title, children }) {
     <div>
       <Head>
         <title>{title ? `${title}- e-cart` : `e-cart`}</title>
+        {discription && <meta name="description" content={discription} />}
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline/>

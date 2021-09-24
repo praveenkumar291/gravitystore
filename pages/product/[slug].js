@@ -30,9 +30,9 @@ export default function ProductScreen() {
       <Grid container spacing={1}>
         <Grid item md={6} xs={12}>
           <Image  src={product.image}
-            alt={product.name} style={{width: '80%', height: '80%'}}
-            width={240}
-            height={240}
+            alt={product.name} style={{width: '60% !important', height: '60% !important'}}
+            width={640}
+            height={640}
             layout="responsive"></Image>
 
         </Grid>
@@ -85,8 +85,8 @@ export default function ProductScreen() {
                     <Typography>Status</Typography>
 
                   </Grid>
-                  <Grid item>
-                    <Typography>{product.countInstock>0?'Instock':'Unavilable'}</Typography>
+                  <Grid item xs={6}>
+                    <Typography>{product.countInStock > 0 ? 'Instock':'Unavilable'}</Typography>
                   </Grid>
 
                 </Grid>

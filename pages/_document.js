@@ -7,8 +7,7 @@ export default class MyDocument extends Document{
     return (
       <Html lang="en">
         <Head>
-         <link rel="stylesheet" href="https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmSU5fABc4EsA.woff2) format('woff2');
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;"/>
+         
         </Head>
         <body>
           <Main />

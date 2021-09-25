@@ -7,19 +7,19 @@ import NextLink from 'next/link';
 import Image from 'next/image';
 import { Grid,Link, List, ListItem, Typography ,Card,Button,} from '@material-ui/core'
 import useStyles from '../../utils/styles1';
+import Product from '../../models/Product';
+import db from '../../utils/db';
 
 
 
 
-export default function ProductScreen() {
+export default function ProductScreen(props) {
+  const { product } = props;
   const classes = useStyles();
-  const router = useRouter();
-  const { slug } = router.query;
-  const product = data.products.find(a => a.slug === slug);
   if (!product) {
     return <div>Product Not Found</div>;
   }
-  return(
+  return (
     <Layout title={product.name}>
 
       <div className={classes.section}>
@@ -29,8 +29,8 @@ export default function ProductScreen() {
       </div>
       <Grid container spacing={1}>
         <Grid item md={6} xs={12}>
-          <Image  src={product.image}
-            alt={product.name} style={{width: '60% !important', height: '60% !important'}}
+          <Image src={product.image}
+            alt={product.name} style={{ width: '60% !important', height: '60% !important' }}
             width={640}
             height={640}
             layout="responsive"></Image>
@@ -39,18 +39,18 @@ export default function ProductScreen() {
         <Grid item md={3} xs={12}>
           <List>
             <ListItem>
-              <Typography component="h1"variant="h1">{product.name}</Typography>
+              <Typography component="h1" variant="h1">{product.name}</Typography>
             </ListItem>
             <ListItem>
-            <Typography>category:{product.category}</Typography>
+              <Typography>category:{product.category}</Typography>
             </ListItem>
-             <ListItem>
-             <Typography> Brand:{product.brand}</Typography>
+            <ListItem>
+              <Typography> Brand:{product.brand}</Typography>
             </ListItem>
-               <ListItem>
-             <Typography> Rating:{product.rating} stars ({product.numReviews}reviews)</Typography>
+            <ListItem>
+              <Typography> Rating:{product.rating} stars ({product.numReviews}reviews)</Typography>
             </ListItem>
-             <ListItem>
+            <ListItem>
               Description:
               <Typography>{product.description}</Typography>
             </ListItem>
@@ -86,7 +86,7 @@ export default function ProductScreen() {
 
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography>{product.countInStock > 0 ? 'Instock':'Unavilable'}</Typography>
+                    <Typography>{product.countInStock > 0 ? 'Instock' : 'Unavilable'}</Typography>
                   </Grid>
 
                 </Grid>
@@ -96,14 +96,29 @@ export default function ProductScreen() {
               <ListItem>
                 <Button fullWidth variant="contained" color="primary">
                   Add to cart
-                  </Button>
+                </Button>
               </ListItem>
             </List>
           </Card>
         </Grid>
 
       </Grid>
-  </Layout>
-  )
+    </Layout>
+  );
 
-};
+}
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const {slug}=params;
+
+  await db.connect();
+  const product= await Product.findOne({slug}).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: db.convertDocToObj(product),
+
+    },
+
+  };
+}

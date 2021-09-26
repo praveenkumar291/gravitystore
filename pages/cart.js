@@ -6,25 +6,30 @@ import { Store } from '../utils/Store';
 import NextLink from 'next/link';
 import Image from 'next/image';
 import axios from 'axios';
+import { useRouter } from  'next/router';
 
 
 
 function CartScreen() {
-  
+  const router = useRouter();
+
 
   const { state , dispatch} = useContext(Store);
   const { cart: { cartItems } } = state;
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
 
-    if (data.countInStock <= 0) {
+    if (data.countInStock < quantity) {
       window.alert('Sorry. Prodct is out of stock');
       return;
     }
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
   }
   const removeItemHandler = (item) => {
-    dispatch({ type: 'CART_REMOVE_ITEM', payload:item})
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+  };
+  const checkoutHandler = (item) => {
+    router.push('/shipping');
   }
   return (
     <Layout title="MY Cart">
@@ -119,7 +124,7 @@ function CartScreen() {
                   </ListItem>
                   <ListItem>
 
-                    <Button variant="contained" color="primary" fullWidth>Checkout</Button>
+                    <Button variant="contained" color="primary" fullWidth onClick={checkoutHandler}>Checkout</Button>
                   </ListItem>
                 </List>
 

@@ -10,6 +10,7 @@ import axios from 'axios';
 
 
 function CartScreen() {
+  
 
   const { state , dispatch} = useContext(Store);
   const { cart: { cartItems } } = state;
@@ -22,13 +23,21 @@ function CartScreen() {
     }
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
   }
+  const removeItemHandler = (item) => {
+    dispatch({ type: 'CART_REMOVE_ITEM', payload:item})
+  }
   return (
     <Layout title="MY Cart">
       <Typography component="h1" variant="h1">
         MY cart
 
       </Typography>
-      {cartItems.length === 0 ? (<div>Cart is empity.<NextLink href="/">Go Shopping</NextLink></div>):
+      {cartItems.length === 0 ? (<div>Cart is empity.<NextLink href="/" passHref>
+       <Link>
+        Go Shopping
+        </Link>
+
+      </NextLink></div>) :
 
         (
           <Grid container spacing={1}>
@@ -84,7 +93,7 @@ function CartScreen() {
                           ${item.price}
                         </TableCell>
                         <TableCell align="right">
-                          <Button variant="contained" color="secondary">x</Button>
+                          <Button variant="contained" color="secondary" onClick={()=>removeItemHandler(item)}>x</Button>
                         </TableCell>
                       </TableRow>
                     ))}

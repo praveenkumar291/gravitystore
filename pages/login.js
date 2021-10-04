@@ -1,27 +1,41 @@
 import { Button, Link, List, ListItem, TextField, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useState } from 'react'
 import Layout from '../components/Layout'
 import useStyles from '../utils/styles1';
 import NextLink from 'next/link';
+import axios from 'axios';
 
 function Login() {
-  const classes = useStyles ();
+  const [ email, setEmail ] = useState('')
+  const [password,setPassword ] = useState('')
+  const classes = useStyles();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await axios.post('/api/users/login', { email, password, });
+      alert('successfully login');
+    } catch (err) {
+      alert(err.response.data ?err.response.data.message:err.message);
+    }
+  };
   return (
     <Layout title="Login">
-      <form className={classes.form}>
+      <form onSubmit={submitHandler}className={classes.form}>
       <Typography component="h1" variant="h1">
           Login
         </Typography>
         <List>
           <ListItem>
-            <TextField variant="outlined" fullWidth id="email" label="Email" inputProps={{type: 'email'}}>
+            <TextField variant="outlined" fullWidth id="email" label="Email" inputProps={{type:'email'}}  onChange={e=>setEmail(e.target.value)}>
 
             </TextField>
           </ListItem>
         </List>
         <List>
           <ListItem>
-            <TextField variant="outlined" fullWidth id="password" label="Password" inputProps={{type: 'password'}}>
+            <TextField variant="outlined" fullWidth id="password" label="Password" inputProps={{ type: 'password' }} onChange={e=>setPassword(e.target.value)}>
 
             </TextField>
           </ListItem>

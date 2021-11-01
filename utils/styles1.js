@@ -32,5 +32,13 @@ const useStyles = makeStyles({
     margin:'0 auto'
   },
 
+  navButton: {
+    color: '#fff',
+    textTransform: 'initial',
+    // backgroundColor: 'black',
+    // position: 'absolute',
+  // zIndex: 1,
+  },
+
 });
 export default useStyles;

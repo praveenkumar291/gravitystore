@@ -5,8 +5,14 @@ export const Store = createContext();
 const initialState = {
   darkMode: Cookies.get('darkMode') === 'ON' ? true : false,
   cart: {
-    cartItems:Cookies.get('cartItems')? JSON.parse( Cookies.get('cartItems')): [],
+    cartItems: Cookies.get('cartItems') ? JSON.parse(Cookies.get('cartItems')) : [],
+
+    shippingAddress: Cookies.get('shippingAddress') ? JSON.parse(Cookies.get('shippingAddress'))
+      : {},
   },
+
+  userInfo: Cookies.get('userInfo')
+  ? JSON.parse( JSON.stringify(Cookies.get('userInfo'))):null,
 };
 function reducer(state, action) {
   switch (action.type) {
@@ -26,11 +32,23 @@ function reducer(state, action) {
       const cartItems = state.cart.cartItems.filter(item => item._id !== action.payload._id);
        Cookies.set('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, ...cartItems } };
-      }
+    }
+    case 'SAVE_SHIPPING_ADDRESS':
+      return { ...state, cart: { ...state.cart, shippingAdress: action.payload } };
+    case 'USER_LOGIN':
+      return { ...state, userInfo: action.payload }
+
+
+    case 'USER_LOGOUT':
+      return { ...state, userInfo: null, cart: { cartItems: [] } };
     default:
       return state;
   }
-}
+  }
+
+
+
+
 export function StoreProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const value = { state, dispatch };

@@ -17,19 +17,23 @@ function CartScreen() {
   const { state , dispatch} = useContext(Store);
   const { cart: { cartItems } } = state;
   const updateCartHandler = async (item, quantity) => {
+    
     const { data } = await axios.get(`/api/products/${item._id}`);
 
     if (data.countInStock < quantity) {
       window.alert('Sorry. Prodct is out of stock');
       return;
-    }
+      }
+
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } });
-  }
+    }
+
   const removeItemHandler = (item) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
   const checkoutHandler = (item) => {
     router.push('/shipping');
+
   }
   return (
     <Layout title="MY Cart">
